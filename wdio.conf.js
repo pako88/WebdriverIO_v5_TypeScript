@@ -21,8 +21,10 @@ exports.config = {
     //
     specs: [
         // './test/**/*.ts',
-        './test/dropdown-wo-import.spec.ts',
-        './test/login-wo-import.spec.ts',
+        // './test/dropdown-wo-import.spec.ts',
+        // './test/login-wo-import.spec.ts',
+        './test/dropdown.spec.ts',
+        './test/login.spec.ts',
     ],
     // Patterns to exclude.
     exclude: [
