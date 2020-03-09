@@ -20,7 +20,9 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        './test/**/*.ts'
+        // './test/**/*.ts',
+        './test/dropdown-wo-import.spec.ts',
+        './test/login-wo-import.spec.ts',
     ],
     // Patterns to exclude.
     exclude: [
@@ -63,7 +65,8 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error
-    logLevel: 'error',
+    logLevel: 'debug',
+    outputDir: './logs',
     //
     // Warns when a deprecated command is used
     deprecationWarnings: true,
@@ -116,8 +119,14 @@ exports.config = {
         'tsconfig-paths/register'
       ],
         ui: 'bdd',
-        timeout: timeout
+        timeout: timeout,
+        grep: "Login"
     },
+
+    featureFlags: {
+      specFiltering: true,
+    },
+
     //
     // =====
     // Hooks
