@@ -1,7 +1,7 @@
 const timeout = process.env.DEBUG ? 99999999 : 60000;
 
-exports.config = {
-    //
+const config: WebdriverIO.Config = {
+  //
     // ====================
     // Runner Configuration
     // ====================
@@ -71,7 +71,7 @@ exports.config = {
     outputDir: './logs',
     //
     // Warns when a deprecated command is used
-    deprecationWarnings: true,
+    // deprecationWarnings: true,
     //
     // If you only want to run your tests until a specific amount of tests have failed use
     // bail (default is 0 - don't bail, run all tests).
@@ -199,11 +199,11 @@ exports.config = {
      * Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
      * @param {Object} test test details
      */
-    afterTest: function (test) {
-      if (test.error !== undefined) {
-        browser.takeScreenshot();
-      }
-    },
+    // afterTest: function (test) {
+    //   if (test.error !== undefined) {
+    //     browser.takeScreenshot();
+    //   }
+    // },
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details
@@ -247,3 +247,5 @@ exports.config = {
     // onComplete: function(exitCode, config, capabilities, results) {
     // }
 }
+
+export { config };
