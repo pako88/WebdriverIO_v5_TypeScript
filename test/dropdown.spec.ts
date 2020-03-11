@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import DropdownPage from 'src/pages/DropdownPage';
+import DropdownPage from '../src/pages/DropdownPage';
 
 describe('Dropdown', () => {
     it('can be set using selectByVisibleText', () => {

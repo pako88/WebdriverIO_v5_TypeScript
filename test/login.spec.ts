@@ -1,6 +1,6 @@
 import {expect} from 'chai';
-import {config} from 'src/config';
-import LoginPage from 'src/pages/LogInPage';
+import {config} from '../src/config';
+import LoginPage from '../src/pages/LogInPage';
 
 describe('Login page', () => {
     it('displays message with invalid credentials', () => {

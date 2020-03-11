@@ -1,4 +1,4 @@
-const timeout = process.env.DEBUG ? 99999999 : 30000;
+const timeout = process.env.DEBUG ? 99999999 : 60000;
 
 exports.config = {
     //
@@ -84,7 +84,7 @@ exports.config = {
     baseUrl: 'http://the-internet.herokuapp.com',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 60000,
     //
     // Default timeout in milliseconds for request
     // if Selenium Grid doesn't send response
@@ -120,9 +120,10 @@ exports.config = {
       compilers: [
         'tsconfig-paths/register'
       ],
-        ui: 'bdd',
-        timeout: timeout,
-        grep: "Login"
+      ui: 'bdd',
+      timeout: timeout,
+      grep: "Login",
+      require: 'ts-node/register',
     },
 
     featureFlags: {
@@ -159,9 +160,9 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
-    before: function (capabilities, specs) {
-      require('ts-node').register({ files: true });
-    },
+    // before: function (capabilities, specs) {
+    //   require('ts-node').register({ files: true });
+    // },
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {String} commandName hook command name
