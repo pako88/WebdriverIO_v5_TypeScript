@@ -4,6 +4,20 @@ const globalAny: any = global;
 
 const timeout = process.env.DEBUG ? 99999999 : 60000;
 
+function getTestFiles(filesPattern) {
+  const glob = require('glob');
+  const fs = require('fs');
+  const files = glob.sync(filesPattern, { cache: true });
+  let singleSpec;
+  files.some((f) => fs.readFileSync(f).indexOf('describe.only') >= 0 && (singleSpec = f));
+  // return singleSpec || filesPattern;
+  return singleSpec || files;
+}
+
+const filteredSpecs = getTestFiles('./test/**/*.sspec.ts');
+let specsArray: string[] = [];
+Array.isArray(filteredSpecs) ? specsArray = specsArray.concat(filteredSpecs) : specsArray = [filteredSpecs];
+
 const config: WebdriverIO.Config = {
   //
     // ====================
@@ -23,13 +37,7 @@ const config: WebdriverIO.Config = {
     // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
-    specs: [
-        // './test/**/*.ts',
-        // './test/dropdown-wo-import.spec.ts',
-        // './test/login-wo-import.spec.ts',
-        './test/dropdown.spec.ts',
-        './test/login.spec.ts',
-    ],
+    specs: specsArray,
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
