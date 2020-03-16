@@ -4,3 +4,5 @@ node_modules
 allure-results
 allure-report
 logs
+reports
+package-lock.json
