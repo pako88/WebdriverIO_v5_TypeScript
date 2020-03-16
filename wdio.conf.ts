@@ -1,3 +1,7 @@
+import { ReportAggregator, HtmlReporter } from '@rpii/wdio-html-reporter';
+const log4js = require('log4js');
+const globalAny: any = global;
+
 const timeout = process.env.DEBUG ? 99999999 : 60000;
 
 const config: WebdriverIO.Config = {
@@ -109,10 +113,38 @@ const config: WebdriverIO.Config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter.html
-    reporters: ['spec', ['allure', {
-      outputDir: 'allure-results',
-      disableWebdriverStepsReporting: true,
-    }]],
+    reporters: [
+      'spec', 
+      ['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+      }],    
+      [HtmlReporter, {
+        debug: true,
+        outputDir: './reports/html-reports/',
+        filename: 'report.html',
+        reportTitle: 'wdio report',
+
+        // to show the report in a browser when done
+        showInBrowser: true,
+
+        // to turn on screenshots after every test
+        useOnAfterCommandForScreenshot: true,
+
+        // to use the template override option, can point to your own file in the test project:
+        // templateFilename: path.resolve(__dirname, '../src/wdio-html-reporter-alt-template.hbs'),
+
+        // to add custom template functions for your custom template:
+        // templateFuncs: {
+        //     addOne: (v) => {
+        //         return v+1;
+        //     },
+        // },
+
+        // to initialize the logger
+        LOG: log4js.getLogger('default'),
+      }],
+  	],
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
@@ -143,8 +175,18 @@ const config: WebdriverIO.Config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+      const reportAggregator = new ReportAggregator({
+        outputDir: './reports/html-reports/',
+        filename: 'master-report.html',
+        reportTitle: 'Master Report',
+  
+        // to use the template override option, can point to your own file in the test project:
+        // templateFilename: path.resolve(__dirname, '../src/wdio-html-reporter-alt-template.hbs')
+      });
+      reportAggregator.clean();
+      globalAny.reportAggregator = reportAggregator;  
+    },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
      * to manipulate configurations depending on the capability or spec.
@@ -199,11 +241,13 @@ const config: WebdriverIO.Config = {
      * Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
      * @param {Object} test test details
      */
-    // afterTest: function (test) {
-    //   if (test.error !== undefined) {
-    //     browser.takeScreenshot();
-    //   }
-    // },
+    afterTest: function (test) {
+      const timestamp = new Date().toJSON().replace(/:/g, '-');
+      // build file path
+      const filePath = `./reports/html-reports/screenshots/${timestamp}.png`;
+      // save screenshot
+      browser.saveScreenshot(filePath);
+    },
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details
@@ -244,8 +288,23 @@ const config: WebdriverIO.Config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function(exitCode, config, capabilities, results) {
-    // }
+    onComplete: function(exitCode, config, capabilities, results) {
+      (async () => {
+        await globalAny.reportAggregator.createReport({
+          config,
+          capabilities,
+          results,
+        });
+      })();  
+    },
+
+    afterScenario(uri, feature, scenario, result, sourceLocation) {
+      const timestamp = new Date().toJSON().replace(/:/g, '-');
+      // build file path
+      const filePath = `./reports/html-reports/screenshots/${timestamp}.png`;
+      // save screenshot
+      browser.saveScreenshot(filePath);
+    },  
 }
 
 export { config };
