@@ -18,6 +18,10 @@ class LoginPage extends BasePage {
         return $('#flash').getText();
     }
 
+    get flashElement() {
+        return $('#flash');
+    }
+
     get open() {
         return browser.url('/login');
     }

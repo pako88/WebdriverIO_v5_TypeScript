@@ -29,6 +29,8 @@
     "@wdio/sync": "^5.20.1",
     "allure-commandline": "^2.13.0",
     "chai": "^4.2.0",
+    "expect": "^25.1.0",
+    "expect-webdriverio": "^0.2.0",
     "log4js": "^6.1.2",
     "mocha": "^7.1.0",
     "ts-node": "^8.6.2",

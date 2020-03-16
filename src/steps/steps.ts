@@ -1,6 +1,5 @@
 import { Given, When, Then } from 'cucumber';
 
-import {expect} from 'chai';
 import LoginPage from '../pages/LogInPage';
 
 
@@ -18,6 +17,6 @@ When(
 
 Then(
     /^I expect that the flash includes "([^"]*)?"$/, (expectedString: string) => {
-        expect(LoginPage.flash).to.include(expectedString);
+        expect(LoginPage.flashElement).toHaveTextContaining(expectedString);
     },
 );
