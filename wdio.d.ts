@@ -1,6 +1,7 @@
 declare namespace WebdriverIO {
   interface Config {
       afterScenario?: any;
+      cucumberOpts?: any;
   }
 }
 
