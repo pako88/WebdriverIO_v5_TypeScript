@@ -5,6 +5,7 @@
   "repository": "https://github.com/jpolley/WebdriverIO_v5_TypeScript",
   "scripts": {
     "test": "node ./node_modules/@wdio/cli/bin/wdio.js wdio.conf.js",
+    "test-sauce": "node ./node_modules/@wdio/cli/bin/wdio.js sauce.conf.js",
     "test-cucumber": "node ./node_modules/@wdio/cli/bin/wdio.js cucumber.conf.js",
     "lint": "tslint --fix 'test/**/*.ts' && tslint --fix 'src/**/*.ts'",
     "report": "allure generate ./allure-results --clean && allure open",
