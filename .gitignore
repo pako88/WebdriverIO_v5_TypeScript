@@ -7,3 +7,4 @@ logs
 reports
 package-lock.json
 junit-results
+.env
